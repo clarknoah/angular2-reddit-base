@@ -1,0 +1,30 @@
+<html>
+
+<head>
+  <title>Angular 2 - Simple Reddit</title>
+</head>
+<!-- Libraries -->
+
+<script src="node_modules/core-js/client/shim.min.js"></script>
+<script src="node_modules/zone.js/dist/zone.js"></script>
+<script src="node_modules/reflect-metadata/Reflect.js"></script>
+<script src="node_modules/systemjs/dist/system.src.js"></script>
+
+<body>
+  <!-- StyleSheets -->
+  <link rel="stylesheet" type="text/css" href="resources/vendor/semantic.min/css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+
+<!-- Don't forget to ensure your references are correct!-->
+<script src="resources/systemjs.config.js"></script>
+<script>
+  System.import('app.js')
+    .then(null,console.log.bind(console));
+</script>
+
+<hello-world></hello-world>
+
+
+</body>
+
+</html>
