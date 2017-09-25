@@ -4,6 +4,9 @@ import { NgModule, Component
 import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
+
+
+
 class Article {
   title: string;
   link: string;
@@ -37,6 +40,7 @@ class Article {
 
 @Component({
   selector: 'reddit-article',
+  inputs:['article'],
   host: {
     class: 'row'
   },
@@ -53,8 +57,9 @@ class Article {
     </div>
     <div class="twelve wide column">
       <a class="ui large header" href="{{ article.link }}">
-        {{ title }}
+        {{ article.title }}
       </a>
+      <div class ="meta">({{article.domain()}})</div>
       <ul class="ui big horizontal list voters">
         <li class="item">
           <a href (click)="voteUp()">
@@ -72,10 +77,6 @@ class Article {
 
 class ArticleComponent {
   article: Article;
-
-  constructor() {
-    this.article = new Article('Angular 2','http://angular.io',10);
-  }
 
   voteUp() {
     this.article.voteUp();
@@ -106,6 +107,14 @@ class ArticleComponent {
         Submit link
       </button>
     </form>
+
+    <div class = "ui grid posts">
+      <reddit-article
+        *ngFor="let foobar of articles"
+        [article]="foobar">
+      </reddit-article>
+    </div>
+
     <div class="ui grid posts">
   <reddit-article>
   </reddit-article>
@@ -114,10 +123,27 @@ class ArticleComponent {
 })
 
 class RedditApp {
+  articles: Article[];
+
+  constructor(){
+    this.articles = [
+      new Article('Angular 2','http://angular.io',3),
+      new Article('FullStack','http://fullstack.io',2),
+      new Article('Angular Homepage','http://angular.io',1)
+    ];
+  }
+
   addArticle(title: HTMLInputElement, link: HTMLInputElement): boolean {
     console.log(`Adding article title: ${title.value} and link: ${link.value}`)
+    this.articles.push(new Article(title.value,link.value));
+    title.value = '';
+    link.value = '';
     return false;
   };
+
+  sortedArticles(): Article[]{
+    return this.articles.sort((a: Article, b: Article) => b.votes - a.votes);
+  }
 
 }
 
